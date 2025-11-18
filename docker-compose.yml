@@ -1,0 +1,12 @@
+services:
+  mqtt:
+    image: emqx/nanomq:0.18.2-slim
+    container_name: nanomq
+    ports:
+      - "1883:1883"
+      - "8083:8083"
+      - "8883:8883"
+
+networks:
+  default:
+    driver: bridge

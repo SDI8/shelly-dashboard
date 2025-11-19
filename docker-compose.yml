@@ -1,29 +1,28 @@
 services:
   mqtt:
-    image: emqx/nanomq:0.18.2-slim
+    image: emqx/nanomq:0.18.2
     container_name: nanomq
     ports:
       - "1883:1883"
       - "8083:8083"
-      - "8883:8883"
     volumes:
-      - ./nanomq.conf:/etc/nanomq.conf:ro
+      - ./nanomq/nanomq.conf:/etc/nanomq.conf:ro
     restart: unless-stopped
     deploy:
       resources:
         limits:
           memory: 128M
-          cpus: "0.5"
+          cpus: "0.2"
 
   questdb:
     image: questdb/questdb:7.3.10
     container_name: questdb
     ports:
       - "9000:9000" # Web Console
-      - "9009:9009" # InfluxDB line protocol
-      - "8812:8812" # PostgreSQL wire protocol
+      - "9009:9009" # InfluxDB line protocol (for telegraf)
+      - "8812:8812" # PostgreSQL wire protocol (for grafana)
     volumes:
-      - questdb_data:/var/lib/questdb
+      - ./questdb/data:/var/lib/questdb
     environment:
       - QDB_TELEMETRY_ENABLED=false
       - QDB_PG_ENABLED=true
@@ -33,7 +32,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 512M
+          memory: 1024M
           cpus: "1.0"
     healthcheck:
       test:
@@ -58,7 +57,7 @@ services:
       resources:
         limits:
           memory: 256M
-          cpus: "0.5"
+          cpus: "0.2"
 
   grafana:
     image: grafana/grafana:10.2.0
@@ -66,8 +65,8 @@ services:
     ports:
       - "3000:3000"
     volumes:
+      - ./grafana/data:/var/lib/grafana/
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
-      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_INSTALL_PLUGINS=questdb-questdb-datasource
@@ -84,12 +83,6 @@ services:
         limits:
           memory: 256M
           cpus: "0.5"
-
-volumes:
-  questdb_data:
-    driver: local
-  grafana_data:
-    driver: local
 
 networks:
   default:

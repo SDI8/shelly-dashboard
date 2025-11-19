@@ -17,7 +17,7 @@ A lightweight monitoring setup for Shelly devices over MQTT.
 ## Setup
 1. Ensure you have Docker and Docker Compose installed on your system.
 2. Run `docker-compose up -d` in the project directory to start all services.
-3. Configure your Shelly device's MQTT settings to the broker address (default: `<host-ip>:1883`). Keep the default MQTT prefix, this allows Telegraf to parse the shelly model and device ID.
+3. Configure your Shelly device's MQTT settings to the broker address (default: `<host-ip>:1883`). Keep the default MQTT prefix, this allows Telegraf to parse the shelly model and device ID. Disable "MQTT Control" and "RPC over MQTT".
 4. Access Grafana at `http://<host-ip>:3000` (default credentials: admin/admin) and have fun creating dashboards!
 
 

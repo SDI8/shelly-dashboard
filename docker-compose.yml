@@ -3,8 +3,8 @@ services:
     image: emqx/nanomq:0.18.2
     container_name: nanomq
     ports:
-      - "1883:1883"
-      - "8083:8083"
+      - "1883:1883" # MQTT
+      - "8083:8083" # MQTT over WebSocket
     volumes:
       - ./nanomq/nanomq.conf:/etc/nanomq.conf:ro
     restart: unless-stopped
@@ -22,7 +22,7 @@ services:
       - "9009:9009" # InfluxDB line protocol (for telegraf)
       - "8812:8812" # PostgreSQL wire protocol (for grafana)
     volumes:
-      - ./questdb/data:/var/lib/questdb
+      - questdb_data:/var/lib/questdb
     environment:
       - QDB_TELEMETRY_ENABLED=false
       - QDB_PG_ENABLED=true
@@ -63,9 +63,9 @@ services:
     image: grafana/grafana:10.2.0
     container_name: grafana
     ports:
-      - "3000:3000"
+      - "3000:3000" # Grafana Web UI
     volumes:
-      - ./grafana/data:/var/lib/grafana/
+      - grafana_data:/var/lib/grafana/
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
@@ -87,3 +87,9 @@ services:
 networks:
   default:
     driver: bridge
+
+volumes:
+  questdb_data:
+    driver: local
+  grafana_data:
+    driver: local

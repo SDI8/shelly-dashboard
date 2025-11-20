@@ -8,7 +8,7 @@ A lightweight monitoring setup for Shelly devices over MQTT.
 
 - Self-hosted, without relying on cloud services.
 - Optimized for low resource consumption, ideal for running on Raspberry Pis or similar low-power devices.
-- Highly customizable and extensible. Use the entire stack or only parts of it. Telegraf supports a wide range of outputs, and Grafana offers numerous plugins and visualization options.
+- Highly customizable and extensible. Use the entire stack or only parts of it. Telegraf supports a wide range of outputs, and Grafana can easily be replaced.
 
 ## What it is NOT
 
@@ -36,7 +36,7 @@ Tested with the following Shelly devices:
 - Shelly Plus AddOn + DS18B20 temperature sensor
 - 1 Mini Gen3
 
-Works for the following MQTT topics:
+Tested for the following topics:
 
 - `+/status/switch:*`
 - `+/status/em:*`
@@ -44,9 +44,26 @@ Works for the following MQTT topics:
 - `+/status/temperature:*`
 - `+/status/sys:*`
 
+Untested implementations for the following topics exist on the `feature/untested-topics` branch:
+
+- `+/status/cover:*`
+- `+/status/light:*`
+- `+/status/pm1:*`
+- `+/status/em1:*`
+- `+/status/em1data:*`
+- `+/status/rgb:*`
+- `+/status/rgbw:*`
+- `+/status/humidity:*`
+- `+/status/voltmeter:*`
+- `+/status/illuminance:*`
+- `+/status/devicepower:*`
+- `+/status/flood:*`
+
+*Please provide feedback if you test these topics on the related [Pull Request](https://github.com/SDI8/shelly-dashboard/pull/1)*
+
 ## Development
 
-The main work is done by Telegraf, adding support for new topics is done by adding a consumer to `./telegraf/telegraf.conf`. Once messages are parsed correctly, you can validate the data in QuestDB by using the web interface at `http://<host-ip>:9000`.
+The main work is done by Telegraf, adding support for new topics is done by adding a consumer to `./telegraf/status`. Once messages are parsed correctly, you can validate the data in QuestDB by using the web interface at `http://<host-ip>:9000`.
 
 ### Future improvements
 
@@ -57,4 +74,5 @@ The main work is done by Telegraf, adding support for new topics is done by addi
 
 ## History
 
+- **20. November 2025** Added untested configuration files for most  status topics.
 - **19. November 2025** Project start.

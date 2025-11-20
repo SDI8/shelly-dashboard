@@ -36,13 +36,30 @@ Tested with the following Shelly devices:
 - Shelly Plus AddOn + DS18B20 temperature sensor
 - 1 Mini Gen3
 
-Works for the following MQTT topics:
+Tested for the following topics:
 
 - `+/status/switch:*`
 - `+/status/em:*`
 - `+/status/emdata:*`
 - `+/status/temperature:*`
 - `+/status/sys:*`
+
+Untested implementations for the following topics exist on the `feature/untested-topics` branch:
+
+- `+/status/cover:*`
+- `+/status/light:*`
+- `+/status/pm1:*`
+- `+/status/em1:*`
+- `+/status/em1data:*`
+- `+/status/rgb:*`
+- `+/status/rgbw:*`
+- `+/status/humidity:*`
+- `+/status/voltmeter:*`
+- `+/status/illuminance:*`
+- `+/status/devicepower:*`
+- `+/status/flood:*`
+
+*Please provide feedback if you test these topics on the related [Pull Request](https://github.com/SDI8/shelly-dashboard/pull/1)*
 
 ## Development
 

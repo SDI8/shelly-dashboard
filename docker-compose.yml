@@ -46,7 +46,7 @@ services:
     image: telegraf:1.28-alpine
     container_name: telegraf
     volumes:
-      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - ./telegraf/:/etc/telegraf/telegraf.d/:ro
     depends_on:
       mqtt:
         condition: service_started

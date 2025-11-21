@@ -4,6 +4,8 @@
 
 A lightweight monitoring setup for Shelly devices over MQTT.
 
+![Dashboard example](./doc/dashboard.png)
+
 ## What it IS
 
 - Self-hosted, without relying on cloud services.

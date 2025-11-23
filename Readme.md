@@ -37,6 +37,7 @@ Tested with the following Shelly devices:
 - Shelly Plus1PM
 - Shelly Plus AddOn + DS18B20 temperature sensor
 - 1 Mini Gen3
+- Shelly 2PM Gen 3
 
 Tested for the following topics:
 

@@ -1,6 +1,6 @@
 services:
   mqtt:
-    image: emqx/nanomq:0.18.2
+    image: emqx/nanomq:0.24.6
     container_name: nanomq
     ports:
       - "1883:1883" # MQTT
@@ -15,7 +15,7 @@ services:
           cpus: "0.2"
 
   questdb:
-    image: questdb/questdb:7.3.10
+    image: questdb/questdb:9.2.2
     container_name: questdb
     ports:
       - "9000:9000" # Web Console
@@ -60,7 +60,7 @@ services:
           cpus: "0.2"
 
   grafana:
-    image: grafana/grafana:10.2.0
+    image: grafana/grafana:12.1
     container_name: grafana
     ports:
       - "3000:3000" # Grafana Web UI
@@ -81,7 +81,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 256M
+          memory: 512M
           cpus: "0.5"
 
 networks:

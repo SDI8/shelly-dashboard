@@ -15,7 +15,7 @@ services:
           cpus: "0.2"
 
   questdb:
-    image: questdb/questdb:9.2.2
+    image: questdb/questdb:9.4.3
     container_name: questdb
     ports:
       - "9000:9000" # Web Console
@@ -28,11 +28,17 @@ services:
       - QDB_PG_ENABLED=true
       - QDB_HTTP_ENABLED=true
       - QDB_INFLUXDB_ENABLED=true
+      # Match worker pools to the single-CPU quota instead of host CPU count.
+      - QDB_SHARED_NETWORK_WORKER_COUNT=1
+      - QDB_SHARED_QUERY_WORKER_COUNT=1
+      - QDB_SHARED_WRITE_WORKER_COUNT=1
+      - QDB_WAL_APPLY_WORKER_COUNT=1
+      - QDB_MAT_VIEW_REFRESH_WORKER_COUNT=1
     restart: unless-stopped
     deploy:
       resources:
         limits:
-          memory: 1024M
+          memory: 2048M
           cpus: "1.0"
     healthcheck:
       test:
@@ -83,6 +89,30 @@ services:
         limits:
           memory: 512M
           cpus: "0.5"
+
+  # Provisioning and retention are explicit operations, never startup side effects.
+  # The long-running service only polls metadata and logs refresh failures.
+  downsampling:
+    image: python:3.13-alpine
+    profiles: ["downsampling"]
+    working_dir: /app
+    entrypoint: ["python", "scripts/downsample.py"]
+    command: ["watch"]
+    environment:
+      - QUESTDB_URL=http://questdb:9000
+      - PYTHONDONTWRITEBYTECODE=1
+    volumes:
+      - ./scripts:/app/scripts:ro
+      - ./telegraf:/app/telegraf:ro
+    depends_on:
+      questdb:
+        condition: service_healthy
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+          cpus: "0.2"
 
 networks:
   default:

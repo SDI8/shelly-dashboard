@@ -27,7 +27,19 @@ A lightweight monitoring setup for Shelly devices over MQTT.
 
 ### Hardware Requirements
 
-Min. 1 GB of RAM, that's it.
+At least 4 GB of RAM is recommended for the configured service limits and host
+overhead. QuestDB is allocated 2 GB and one CPU.
+
+### Historical data and database operations
+
+Hourly downsampling keeps raw data for three calendar months and hourly
+summaries indefinitely. It covers the seven Shelly MQTT consumers and the
+host-monitoring tables. Mixed-resolution history views are available for Grafana.
+
+Provisioning and permanent raw-data deletion are separate, explicit operations;
+starting the stack does not enable retention automatically. See
+[database operations](doc/database-operations.md) for deployment, manual
+verification, Grafana queries, backup/rollback precautions, and tests.
 
 ## Compatibility
 

@@ -1,2 +1,4 @@
 grafana/data/*
 questdb/data/*
+backups/*
+__pycache__/

@@ -254,7 +254,7 @@ def apply(db: QuestDB, definitions: dict, timeout: float) -> None:
             if (view["base_table_name"] != name
                     or normalize(view["view_sql"]) != normalize(query)):
                 raise RuntimeError(f"{hourly}: definition changed; refusing to replace historical summaries")
-            if view["view_status"] != "valid":
+            if view["view_status"] not in {"valid", "refreshing"}:
                 raise RuntimeError(f"{hourly}: invalid; investigate without automatic FULL refresh")
         else:
             if metadata["ttlValue"]:
